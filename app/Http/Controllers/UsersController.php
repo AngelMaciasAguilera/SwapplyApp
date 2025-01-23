@@ -59,9 +59,9 @@ class UsersController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role
             ]);
-            return redirect()->route('allUsers')->with('success', 'usuario creado correctamente');
+            return redirect()->route('allUsers')->with(['message' => 'usuario creado correctamente']);
         } else {
-            return back()->withErrors(($validator))->withInput();
+            return back()->withErrors(['message' => $validator->errors()->first()])->withInput();
         }
 
         dd($request);
@@ -99,9 +99,9 @@ class UsersController extends Controller
 
         if($validator->passes()){
             $result = $user->update($request->all());
-            return redirect()->route('allUsers')->with(['success' => 'The user has been updated properly']);
+            return redirect()->route('allUsers')->with(['message' => 'The user has been updated properly']);
         }else{
-            return back()->withErrors($validator)->withInput();
+            return back()->withErrors(['message' => $validator->errors()->first()])->withInput();
         }
     }
 
@@ -111,6 +111,6 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user -> delete();
-        return redirect()->route('allUsers')->with(['success' => 'The user has been deleted properly']);
+        return redirect()->route('allUsers')->with(['message' => 'The user has been deleted properly']);
     }
 }

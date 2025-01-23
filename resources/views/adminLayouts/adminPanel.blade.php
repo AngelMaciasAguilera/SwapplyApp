@@ -23,7 +23,7 @@
             </form></li>
             <li><a href="" style="color: white;">Category</a></li>
             <li><a href="" style="color: white;">Sale</a></li>
-            <li><a href="" style="color: white;">Setting</a></li>
+            <li><a href="{{route('setting.index')}}" style="color: white;">Setting</a></li>
             @if ($admin->role == 'superadmin')
                 <li><a href="{{route('allUsers')}}" style="color: white;">Users</a></li>
             @endif
