@@ -21,7 +21,7 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form></li>
-            <li><a href="" style="color: white;">Category</a></li>
+            <li><a href="{{route('category.index')}}" style="color: white;">Category</a></li>
             <li><a href="" style="color: white;">Sale</a></li>
             <li><a href="{{route('setting.index')}}" style="color: white;">Setting</a></li>
             @if ($admin->role == 'superadmin')

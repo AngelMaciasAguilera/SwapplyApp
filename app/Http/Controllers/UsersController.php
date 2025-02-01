@@ -19,25 +19,19 @@ class UsersController extends Controller
     function index()
     {
         $admin = Auth::user();
-        if ($admin->role == null || $admin->role == 'user') return redirect(url('/'));
+        if ($admin == null || $admin->role == 'user') return redirect(url('/'));
         return view('adminLayouts.adminPanel', ['admin' => $admin]);
     }
 
     function usersView()
     {
-        $users = User::where('id', '!=', 1)->get();
-        if (Auth::user()->role == null || Auth::user()->role == 'user') return redirect(url('/'));
-        return view('adminLayouts.adminUsersLayout.index', ['users' => $users]);
-    }
-
-
-    public function create()
-    {
         $enumValues = DB::select("SHOW COLUMNS FROM users WHERE Field = 'role'");
         $typeEnumValues = $enumValues[0]->Type;
         preg_match_all("/'([^']+)'/", $typeEnumValues, $matches);
         $enumValuesArray = $matches[1];
-        return view('adminLayouts.adminUsersLayout.create', ['roles' => $enumValuesArray]);
+        $users = User::where('id', '!=', 1)->get();
+        if (Auth::user()->role == null || Auth::user()->role == 'user') return redirect(url('/'));
+        return view('adminLayouts.adminUsersLayout.index', ['users' => $users, 'roles' => $enumValuesArray]);
     }
 
     /**
