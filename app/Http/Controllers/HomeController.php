@@ -37,6 +37,6 @@ class HomeController extends Controller
     public function userHome(){
         $user = Auth::user();
         $userSales = Sale::where('user_id', $user->id)->paginate(10);
-        return view('home', ['user' => $user]);
+        return view('home', ['user' => $user, 'userSales' => $userSales]);
     }
 }

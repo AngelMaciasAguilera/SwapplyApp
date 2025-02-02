@@ -19,7 +19,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::where('isSold', '!=', 1)->paginate(1);
+        $sales = Sale::where('isSold', '!=', 1)->paginate(10);
         return view('mainview', ['sales' => $sales]);
     }
 
@@ -80,7 +80,9 @@ class SaleController extends Controller
      */
     public function edit(Sale $sale)
     {
-        //
+        $categories = Category::all();
+        $maxImages = Setting::all()->first()->maxImages;
+        return view('userLayouts.editsale', ['sale' => $sale,'maxImages' => $maxImages, 'categories' => $categories]);
     }
 
     /**

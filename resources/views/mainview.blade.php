@@ -10,38 +10,7 @@
 
 </head>
 <body>
-    <style>
-        .pagination-container nav {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
 
-        .pagination {
-            display: flex;
-            list-style: none;
-            gap: 10px;
-            padding: 0;
-        }
-
-        .pagination li {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-            border-radius: 5px;
-            background: #f8f9fa;
-        }
-
-        .pagination li a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .pagination .active {
-            background: #007bff;
-            color: white;
-        }
-    </style>
-    
     <header style="background-color: purple; color:white;">
         <h3>SWAPPLY</h3>
         <nav>
@@ -59,7 +28,6 @@
 
 
     @if (!empty($sales))
-    <div class="paginate">{{$sales->links()}}</div>
         @foreach ($sales as $sale)
             <div class="sale-card">
                 <div class="header-img-card">
