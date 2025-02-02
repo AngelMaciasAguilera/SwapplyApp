@@ -8,9 +8,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('mainview');
-});
+Route::get('/', [App\Http\Controllers\SaleController::class, 'index']);
 
 Auth::routes();
 
