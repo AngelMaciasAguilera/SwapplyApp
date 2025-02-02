@@ -62,4 +62,17 @@ class ImageController extends Controller
     {
         //
     }
+
+    /**
+     * Obtains the specific image of the sale
+     */
+    public function image(Request $request, $id)
+    {
+        $image = Image::find($id);
+        if (file_exists(storage_path('app/private') . '/' . $image->path)) {
+            return response()
+                ->file(storage_path('app/private') . '/' . $image->path);
+        }
+        abort(404);
+    }
 }

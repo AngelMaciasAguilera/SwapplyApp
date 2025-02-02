@@ -19,18 +19,27 @@ class UsersController extends Controller
     function index()
     {
         $admin = Auth::user();
-        if ($admin == null || $admin->role == 'user') return redirect(url('/'));
+        if ($admin == null){
+            return redirect(url('/'));
+        }elseif($admin->role == 'user'){
+            return redirect(url('usersHome'));
+        }
         return view('adminLayouts.adminPanel', ['admin' => $admin]);
     }
 
     function usersView()
     {
+        $admin = Auth::user();
         $enumValues = DB::select("SHOW COLUMNS FROM users WHERE Field = 'role'");
         $typeEnumValues = $enumValues[0]->Type;
         preg_match_all("/'([^']+)'/", $typeEnumValues, $matches);
         $enumValuesArray = $matches[1];
         $users = User::where('id', '!=', 1)->get();
-        if (Auth::user()->role == null || Auth::user()->role == 'user') return redirect(url('/'));
+        if ($admin == null){
+            return redirect(url('/'));
+        }elseif($admin->role == 'user'){
+            return redirect(url('usersHome'));
+        }
         return view('adminLayouts.adminUsersLayout.index', ['users' => $users, 'roles' => $enumValuesArray]);
     }
 
@@ -84,10 +93,10 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
-            'email' => ['required','email','max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
+            'email' => ['email','max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'name' => 'string|max:255',
+            'password' => 'string|max:255',
+            'role' => 'string|max:255',
 
         ]);
 

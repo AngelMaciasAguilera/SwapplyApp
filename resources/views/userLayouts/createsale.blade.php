@@ -9,12 +9,24 @@
 </head>
 
 <body>
+    @if (session('message'))
+    <div class="alert alert-success" role="alert">
+        {{ session('message') }}
+    </div>
+    @endif
+
+    @if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        {{ $errors->first() }}
+    </div>
+    @endif
+
     <a href="{{ route('sale.index') }}" >Go back</a>
     <form action="{{route('sale.store')}}" style="display:flex;flex-flow:column;gap:2rem; margin-top:1rem;" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <label for="name">Product:</label>
-        <input type="text" id="name" name="name" minlength="40" maxlength="230" placeholder="Product name" required>
+        <input type="text" id="name" name="name" minlength="10" maxlength="230" placeholder="Product name" required>
         <label for="description">Description:</label>
         <textarea name="description" id="description" minlength="40" maxlength="300" placeholder="Product description" required></textarea>
         <label for="price">Price:</label>
@@ -27,13 +39,13 @@
         </select>
 
         <label for="thumbnail">Choose a thumbnail for the sale:</label>
-        <input type="file" id="thumbnail" name="thumbnail" accept="image/*" onchange="previewThumbnail(event)">
+        <input type="file" id="thumbnail" name="thumbnail"  accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" onchange="previewThumbnail(event)">
         <img id="thumbnailPreview" src="#" alt="Thumbnail Preview" style="display:none; width:150px; margin-top: 10px; border-radius: 8px;">
 
         <label for="file">Select at least 2 images for the sale (with a max of {{$maxImages}} images):</label>
         @for ($i = 0; $i < $maxImages; $i++)
             @if ($i <= 1)
-                <input type="file" name="imagenes[]" id="file{{ $i }}" required>
+                <input type="file" name="imagenes[]" accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" id="file{{ $i }}" required>
             @else
                 <input type="file" id="file{{ $i }}" name="imagenes[]">
             @endif
