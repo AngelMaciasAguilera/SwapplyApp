@@ -38,3 +38,6 @@ Route::get('thumbnail/{id}',[SaleController::class, 'thumbnail']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('images', ImageController::class);
+

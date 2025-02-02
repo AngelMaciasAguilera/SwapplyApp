@@ -69,9 +69,9 @@ class ImageController extends Controller
     public function image(Request $request, $id)
     {
         $image = Image::find($id);
-        if (file_exists(storage_path('app/private') . '/' . $image->path)) {
+        if (file_exists(storage_path('app/private') . '/' . $image->ruta)) {
             return response()
-                ->file(storage_path('app/private') . '/' . $image->path);
+                ->file(storage_path('app/private') . '/' . $image->ruta);
         }
         abort(404);
     }
