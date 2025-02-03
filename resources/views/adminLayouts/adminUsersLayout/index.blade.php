@@ -98,11 +98,11 @@
   <div class="users-container">
     @foreach ($users as $user)
     <ul class="user-data-list">
-      <li>{{$user->name}}</li>
-      <li>{{$user->email}}</li>
-      <li>{{$user->role}}</li>
-      <li><a href="{{route('users.show', [$user->id])}}">View</a></li>
-      @if($user->role != 'user')
+      <li>Name: {{$user->name}}</li>
+      <li>Email: {{$user->email}}</li>
+      <li>Role: {{$user->role}}</li>
+      <li>Created_at: {{$user->created_at}}</li>
+      <li>Updated_at: {{$user->updated_at}}</li>
       <div class="modal fade" id="updateModal{{$user->id}}" tabindex="-1" aria-labelledby="updateModal" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -142,8 +142,6 @@
       </div>
 
       <li><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{$user->id}}">Update</a></li>
-
-      @endif
       <li><a href="" class="btn btn-primary deleteUserBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-email="{{$user->email}}" data-id="{{$user->id}}" data-role="{{$user->role}}">Delete</a></li>
     </ul>
     @endforeach

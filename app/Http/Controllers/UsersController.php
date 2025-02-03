@@ -34,7 +34,7 @@ class UsersController extends Controller
         $typeEnumValues = $enumValues[0]->Type;
         preg_match_all("/'([^']+)'/", $typeEnumValues, $matches);
         $enumValuesArray = $matches[1];
-        $users = User::where('id', '!=', 1)->get();
+        $users = User::where('id', '!=', 1)->orderBy('created_at','desc')->get();
         if ($admin == null){
             return redirect(url('/'));
         }elseif($admin->role == 'user'){
@@ -99,6 +99,14 @@ class UsersController extends Controller
             'role' => 'string|max:255',
 
         ]);
+
+        if ($request->has('password')) {
+            if($request->password != $user->password){
+                $request->merge([
+                    'password' => Hash::make($request->password),
+                ]);
+            }
+        }
 
         if($validator->passes()){
             $result = $user->update($request->all());
