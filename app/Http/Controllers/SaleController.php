@@ -20,7 +20,11 @@ class SaleController extends Controller
     public function index()
     {
         $sales = Sale::where('isSold', '!=', 1)->paginate(10);
-        return view('mainview', ['sales' => $sales]);
+        if(Auth::user() != null && (Auth::user()->role == 'admin' || Auth::user() -> role == 'superadmin')){
+            return view('adminLayouts.adminSaleLayouts.index', ['sales' => $sales]);
+        }else{
+            return view('mainview', ['sales' => $sales]);
+        }
     }
 
     /**

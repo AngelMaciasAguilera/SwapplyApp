@@ -3,7 +3,7 @@
 @section('content')
 
     <a href="{{route('sale.create')}}" class="btn btn-primary">Create an offer</a>
-    <!-- Delete ImageModal -->
+    <!-- Delete Sale Modal -->
     <div class="modal fade" id="deleteSaleModal" tabindex="-1" aria-labelledby="deleteSaleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
