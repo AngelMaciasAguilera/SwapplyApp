@@ -72,7 +72,8 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
-        //
+        $relatedSales = Sale::where('category_id', $sale->category_id) ->where('id', '!=', $sale->id) ->where('isSold', '!=', 1) ->orderBy('created_at', 'desc') ->take(3)->get();
+        return view('userLayouts.showsale', ['sale'=> $sale, 'relatedSales' => $relatedSales]);
     }
 
     /**
@@ -140,7 +141,9 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        
+        $sale->delete();
+        return redirect()->route('usersHome');
+
     }
 
     public function thumbnail(Request $request, $id)
@@ -151,5 +154,13 @@ class SaleController extends Controller
                 ->file(storage_path('app/private') . '/' . $thumbnailPath);
         }
         abort(404);
+    }
+
+    public function buySale($id)
+    {
+        $sale = Sale::where('id',$id)->first();
+        $sale->isSold = 1;
+        $sale -> save();
+        return redirect()->route('sale.index')->with(['message' => 'Thank you for the purchase!']);
     }
 }

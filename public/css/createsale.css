@@ -1,0 +1,184 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f3f4f6;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #6200ea;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #3700b3;
+}
+
+.alert {
+    padding: 10px;
+    margin: 20px 0;
+    border-radius: 8px;
+    background-color: #e0f7fa;
+    color: #00796b;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #ffccbc;
+    color: #d32f2f;
+}
+
+/* Back-link styles */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.back-link:hover {
+    transform: scale(1.05);
+}
+
+/* Form container */
+.form-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Form styles */
+.sale-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #6200ea;
+}
+
+.form-input, .form-textarea, .form-select, .form-file {
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus, .form-file:focus {
+    border-color: #6200ea;
+    box-shadow: 0 0 8px rgba(98, 0, 234, 0.5);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-select {
+    background-color: #fafafa;
+}
+
+/* File preview */
+#thumbnailPreview {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Submit button */
+.submit-btn {
+    padding: 15px 30px;
+    background-color: #6200ea;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #3700b3;
+    transform: scale(1.05);
+}
+
+.submit-btn:active {
+    background-color: #6200ea;
+    transform: scale(1);
+}
+
+/* Input file (styling hidden file input) */
+.form-file {
+    cursor: pointer;
+}
+
+.form-file[type="file"]::-webkit-file-upload-button {
+    background-color: #6200ea;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-file[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #3700b3;
+}
+
+/* Input files with a max of 2 images, additional ones styled as normal */
+.form-file:not(:first-of-type) {
+    background-color: #f4f4f4;
+    border: 2px dashed #ccc;
+}
+
+/* Animation for focus */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* For error in validation */
+input:invalid, textarea:invalid, select:invalid {
+    animation: shake 0.5s ease-in-out;
+    border-color: #d32f2f;
+}
+

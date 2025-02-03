@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Creating an offer</title>
+    <link rel="stylesheet" href="{{ asset('css/createsale.css') }}">
 </head>
 
 <body>
@@ -21,38 +22,45 @@
     </div>
     @endif
 
-    <a href="{{ route('sale.index') }}" >Go back</a>
-    <form action="{{route('sale.store')}}" style="display:flex;flex-flow:column;gap:2rem; margin-top:1rem;" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('POST')
-        <label for="name">Product:</label>
-        <input type="text" id="name" name="name" minlength="10" maxlength="230" placeholder="Product name" required>
-        <label for="description">Description:</label>
-        <textarea name="description" id="description" minlength="40" maxlength="600" placeholder="Product description" required></textarea>
-        <label for="price">Price:</label>
-        <input type="number" name="price" min="0"  max="10000000" step="0.01" id="price" placeholder="Product price" required>
-        <label for="category">Category:</label>
-        <select name="category" id="category" required>
-            @foreach ($categories as $category)
-                <option value="{{$category->id}}">{{$category->name}}</option>
-            @endforeach
-        </select>
+    <a href="{{ route('sale.index') }}" class="back-link">Go back</a>
 
-        <label for="thumbnail">Choose a thumbnail for the sale:</label>
-        <input type="file" id="thumbnail" name="thumbnail" required accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" onchange="previewThumbnail(event)">
-        <img id="thumbnailPreview" src="#" alt="Thumbnail Preview" style="display:none; width:150px; margin-top: 10px; border-radius: 8px;">
+    <div class="form-container">
+        <form action="{{route('sale.store')}}" method="POST" enctype="multipart/form-data" class="sale-form">
+            @csrf
+            @method('POST')
 
-        <label for="file">Select at least 2 images for the sale (with a max of {{$maxImages}} images):</label>
-        @for ($i = 0; $i < $maxImages; $i++)
-            @if ($i <= 1)
-                <input type="file" name="imagenes[]" accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" id="file{{ $i }}" required>
-            @else
-                <input type="file" id="file{{ $i }}" name="imagenes[]">
-            @endif
+            <label for="name" class="form-label">Product:</label>
+            <input type="text" id="name" name="name" minlength="10" maxlength="230" placeholder="Product name" required class="form-input">
 
-        @endfor
-        <button>Create it</button>
-    </form>
+            <label for="description" class="form-label">Description:</label>
+            <textarea name="description" id="description" minlength="40" maxlength="600" placeholder="Product description" required class="form-textarea"></textarea>
+
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" name="price" min="0" max="10000000" step="0.01" id="price" placeholder="Product price" required class="form-input">
+
+            <label for="category" class="form-label">Category:</label>
+            <select name="category" id="category" required class="form-select">
+                @foreach ($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+            </select>
+
+            <label for="thumbnail" class="form-label">Choose a thumbnail for the sale:</label>
+            <input type="file" id="thumbnail" name="thumbnail" required accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" onchange="previewThumbnail(event)" class="form-file">
+            <img id="thumbnailPreview" src="#" alt="Thumbnail Preview" style="display:none;">
+
+            <label for="file" class="form-label">Select at least 2 images for the sale (with a max of {{$maxImages}} images):</label>
+            @for ($i = 0; $i < $maxImages; $i++)
+                @if ($i <= 1)
+                    <input type="file" name="imagenes[]" accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" id="file{{ $i }}" required class="form-file">
+                @else
+                    <input type="file" id="file{{ $i }}" name="imagenes[]" class="form-file">
+                @endif
+            @endfor
+
+            <button type="submit" class="submit-btn">Create it</button>
+        </form>
+    </div>
 
     <script>
         function previewThumbnail(event) {

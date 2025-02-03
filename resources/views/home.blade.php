@@ -2,16 +2,17 @@
 
 @section('content')
 
+    <a href="{{route('sale.create')}}" class="btn btn-primary">Create an offer</a>
     <!-- Delete ImageModal -->
-    <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteSaleModalLabel"
+    <div class="modal fade" id="deleteSaleModal" tabindex="-1" aria-labelledby="deleteSaleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteImageModalLabel"></h5>
+                    <h5 class="modal-title" id="deleteSaleModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="deleteImageModalBody">
+                <div class="modal-body" id="deleteSaleModalBody">
                     ...
                 </div>
                 <div class="modal-footer">
@@ -21,7 +22,7 @@
                         @csrf
                         @method('delete')
                         <button type="button" class="btn btn-primary" id="confirm-delete"
-                            data-href="{{ url('images/') }}">Delete</button>
+                            data-href="{{ url('sale/') }}">Delete</button>
                     </form>
                 </div>
             </div>
@@ -73,9 +74,9 @@
                             <p>{{ $sale->price }} €</p>
                             <div class="sale-buttons">
                                 @if ($sale->isSold != 1)
-                                    <a href="">See the sale</a>
+                                    <a href="{{route('sale.show', $sale->id)}}">See the sale</a>
                                     <a href="{{route('sale.edit', [$sale->id])}}">Edit the sale</a>
-                                    <a href="">Delete the sale</a>
+                                    <a href="" class="btn btn-primary deleteSaleBtn" data-bs-toggle="modal" data-bs-target="#deleteSaleModal" data-product="{{$sale->product}}" data-id="{{$sale->id}}">Delete</a>
                                 @else
                                     <p>this sale was sold succesfully!</p>
                                 @endif

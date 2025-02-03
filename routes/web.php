@@ -41,3 +41,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('images', ImageController::class);
 
+Route::get('/buySale/{id}', [SaleController::class, 'buySale'])->name('buySale');
