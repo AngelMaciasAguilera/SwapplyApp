@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -52,7 +53,7 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        //
+
     }
 
     /**
@@ -60,7 +61,21 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        //First we ensure that the file exists in the local disk
+        if(Storage::disk('local')->exists($image->ruta)){
+            //If exists we remove it from the local disk
+            $result = Storage::disk('local')->delete($image->ruta);
+            //Once done we ensure that the remove was done
+            if($result){
+                //We remove it from the database
+                $image -> delete();
+                return back() -> with(['message' => 'The image deleted succesfully!']);
+            }else{
+                //If the image has some trouble removing the path we redirects the user indicating the error
+                return back()->withErrors(['message' => 'The image coudnt be deleted'] )->withInput();
+            }
+
+        }
     }
 
     /**

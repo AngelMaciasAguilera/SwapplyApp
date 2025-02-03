@@ -1,6 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <!-- Delete ImageModal -->
+    <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteSaleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteImageModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="deleteImageModalBody">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        id="undo-delete">Close</button>
+                    <form action="" id="formToDelete" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="button" class="btn btn-primary" id="confirm-delete"
+                            data-href="{{ url('images/') }}">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if (session('message'))
         <div class="alert alert-success" role="alert">
             {{ session('message') }}

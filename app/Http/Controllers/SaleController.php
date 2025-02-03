@@ -38,33 +38,33 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-            //We obtain the user ID
-            $user = Auth::user()->id;
+        //We obtain the user ID
+        $user = Auth::user()->id;
 
-            //We store the thumbnail path in the attribute $thumbnailPath
-            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'local');
+        //We store the thumbnail path in the attribute $thumbnailPath
+        $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'local');
 
-            //We create the sale
-            $sale = Sale::create([
-                'product' => $request->name,
-                'description' => $request->description,
-                'price' => $request->price,
-                'isSold' => 0,
-                'category_id' => $request->category,
-                'user_id' => $user,
-                'img' => $thumbnailPath
+        //We create the sale
+        $sale = Sale::create([
+            'product' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'isSold' => 0,
+            'category_id' => $request->category,
+            'user_id' => $user,
+            'img' => $thumbnailPath
+        ]);
+
+        // Reeding the images that arrives through the request
+        foreach ($request->file('imagenes') as $image) {
+            $imagePath = $image->store('images', 'local');
+            //Saving the images using the saveMany method
+            $sale->images()->create([
+                'ruta' => $imagePath,
             ]);
+        }
 
-            // Reeding the images that arrives through the request
-            foreach ($request->file('imagenes') as $image) {
-                $imagePath = $image->store('images', 'local');
-                //Saving the images using the saveMany method
-                $sale->images()->create([
-                    'ruta' => $imagePath,
-                ]);
-            }
-
-            return redirect()->route('sale.index');
+        return redirect()->route('sale.index');
     }
 
     /**
@@ -82,7 +82,7 @@ class SaleController extends Controller
     {
         $categories = Category::all();
         $maxImages = Setting::all()->first()->maxImages;
-        return view('userLayouts.editsale', ['sale' => $sale,'maxImages' => $maxImages, 'categories' => $categories]);
+        return view('userLayouts.editsale', ['sale' => $sale, 'maxImages' => $maxImages, 'categories' => $categories]);
     }
 
     /**
@@ -90,7 +90,49 @@ class SaleController extends Controller
      */
     public function update(Request $request, Sale $sale)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'thumbnail' => '|file|max:2048', // 2MB = 2048KB
+        ]);
+
+        if ($validator->passes()) {
+            //We ensures that it comes a thumbnail through the request
+            if ($request->hasFile('thumbnail')) {
+                if ($sale->img != null) {
+                    //First we remove the old thumbnail if it has one from the local disk
+                    if (Storage::disk('local')->exists($sale->img)) {
+                        //If exists we remove it from the local disk
+                        $result = Storage::disk('local')->delete($sale->img);
+                        //Once done we ensure that the remove was done
+                        if ($result) {
+                            //We store the thumbnail path in the attribute $thumbnailPath
+                            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'local');
+                            $sale ->img = $thumbnailPath;
+                        }
+                    }
+                }
+            }
+
+            $sale -> product = $request->name;
+            $sale -> description = $request->description;
+            $sale -> price = $request->price;
+            $sale -> product = $request->name;
+            $sale -> category_id = $request->category;
+
+            if ($request->hasFile('imagenes') && is_array($request->file('imagenes'))) {
+                // Reading the images that arrives through the request
+                foreach ($request->file('imagenes') as $image) {
+                    $imagePath = $image->store('images', 'local');
+                    //Saving the images using the saveMany method
+                    $sale->images()->create([
+                        'ruta' => $imagePath,
+                    ]);
+                }
+            }
+            $sale -> save();
+            return redirect()->route('sale.index');
+        } else {
+            return back()->withErrors(['message' => $validator->errors()->first() . ' ensures that the file doesnt have more than 2 mb of size'])->withInput();
+        }
     }
 
     /**
@@ -98,7 +140,7 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        //
+        
     }
 
     public function thumbnail(Request $request, $id)

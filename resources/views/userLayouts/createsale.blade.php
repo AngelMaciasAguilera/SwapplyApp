@@ -28,7 +28,7 @@
         <label for="name">Product:</label>
         <input type="text" id="name" name="name" minlength="10" maxlength="230" placeholder="Product name" required>
         <label for="description">Description:</label>
-        <textarea name="description" id="description" minlength="40" maxlength="300" placeholder="Product description" required></textarea>
+        <textarea name="description" id="description" minlength="40" maxlength="600" placeholder="Product description" required></textarea>
         <label for="price">Price:</label>
         <input type="number" name="price" min="0"  max="10000000" step="0.01" id="price" placeholder="Product price" required>
         <label for="category">Category:</label>
@@ -39,7 +39,7 @@
         </select>
 
         <label for="thumbnail">Choose a thumbnail for the sale:</label>
-        <input type="file" id="thumbnail" name="thumbnail"  accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" onchange="previewThumbnail(event)">
+        <input type="file" id="thumbnail" name="thumbnail" required accept="image/png, image/jpeg, image/webp, image/jpg, image/avif" onchange="previewThumbnail(event)">
         <img id="thumbnailPreview" src="#" alt="Thumbnail Preview" style="display:none; width:150px; margin-top: 10px; border-radius: 8px;">
 
         <label for="file">Select at least 2 images for the sale (with a max of {{$maxImages}} images):</label>
