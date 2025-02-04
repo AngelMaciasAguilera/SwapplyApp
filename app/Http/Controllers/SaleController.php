@@ -76,8 +76,9 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
+        $user = Auth::user();
         $relatedSales = Sale::where('category_id', $sale->category_id) ->where('id', '!=', $sale->id) ->where('isSold', '!=', 1) ->orderBy('created_at', 'desc') ->take(3)->get();
-        return view('userLayouts.showsale', ['sale'=> $sale, 'relatedSales' => $relatedSales]);
+        return view('userLayouts.showsale', ['sale'=> $sale, 'relatedSales' => $relatedSales, 'user' => $user]);
     }
 
     /**

@@ -27,7 +27,12 @@
             <p>Dealer: {{ $sale->user->name }}</p>
             <p>Category: {{ $sale->category->name }}</p>
             <p>Price: {{ $sale->price }}</p>
-            <a href="{{ route('buySale', $sale->id) }}">Buy it!</a>
+            @if ($user != null)
+                <a href="{{ route('buySale', $sale->id) }}">Buy it!</a>
+            @else
+            <a href="{{ route('register') }}">Buy it!</a>
+
+            @endif
         </div>
     </div>
 
