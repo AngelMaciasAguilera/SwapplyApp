@@ -28,9 +28,9 @@
             <p>Category: {{ $sale->category->name }}</p>
             <p>Price: {{ $sale->price }}</p>
             @if ($user != null)
-                <a href="{{ route('buySale', $sale->id) }}">Buy it!</a>
+                <a class="btn btn-primary" href="{{ route('buySale', $sale->id) }}">Buy it!</a>
             @else
-            <a href="{{ route('register') }}">Buy it!</a>
+                <a class="btn btn-primary" href="{{ route('register') }}">Buy it!</a>
 
             @endif
         </div>
